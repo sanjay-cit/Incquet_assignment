@@ -57,7 +57,9 @@ export default {
   width: 100%;
   margin-right: 65px;
 }
-
+.row {
+  justify-content: space-around;
+}
 .card {
   background-color: #fff;
   border: none;

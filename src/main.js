@@ -43,8 +43,8 @@ const store = {
     }
   },
   actions: {
-    handleProducts({ commit }) {
-      Vue.axios.get('https://61922b19aeab5c0017105dfb.mockapi.io/product').then(resp => {
+    handleProducts({ commit }, params) {
+      Vue.axios.get('https://61922b19aeab5c0017105dfb.mockapi.io/product'+serializeQueryParams(params)).then(resp => {
         commit('setProducts', resp.data)
       })
     },
@@ -59,6 +59,25 @@ const store = {
       })
     }
   }
+}
+
+const serializeQueryParams = paramObj => {
+  if (paramObj) {
+    return `?${Object.keys(paramObj)
+      .map(k => {
+        if (typeof paramObj[k] === 'object') {
+          return (
+            paramObj[k] &&
+            paramObj[k]
+              .map(v => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+              .join('&')
+          )
+        }
+        return `${encodeURIComponent(k)}=${encodeURIComponent(paramObj[k])}`
+      })
+      .join('&')}`
+  }
+  return ''
 }
 
 const routes = [

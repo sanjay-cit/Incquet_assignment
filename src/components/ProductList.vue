@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div v-if="isAvailable()" class="row">
       <div class="card" v-for="product in getProducts" :key="product.id" @click="viewDetail(product.id)">
         <div class="image-container">
           <div class="first">
@@ -24,6 +24,9 @@
         </div>
       </div>
     </div>
+    <div v-else class="error">
+    Ughhhh! No products found.
+  </div>
   </div>
 </template>
 
@@ -47,6 +50,9 @@ export default {
       this.$store.dispatch("handleDetail",id)
       console.log('dds',this.getDetail);
       this.$router.push('/pdp')
+    },
+    isAvailable () {
+      return this.getProducts.length ? true : false
     }
   }
 };
@@ -55,10 +61,14 @@ export default {
 <style scoped>
 .container {
   width: 100%;
-  margin-right: 65px;
 }
 .row {
   justify-content: space-around;
+}
+.error {
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
 }
 .card {
   background-color: #fff;
